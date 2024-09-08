@@ -13,3 +13,5 @@ Route::get('/', function () {
 });
 
 Route::get('getAllUsers', [\App\Http\Controllers\UserController::class, 'getAllUser']);
+
+Route::post('register', [\App\Http\Controllers\UserController::class, 'register']);
