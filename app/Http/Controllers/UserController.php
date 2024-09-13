@@ -18,12 +18,10 @@ class UserController extends Controller
     public function register(Request $request)
     {
         $name = $request->input('name');
-        $email = $request->input('email');
         $password = $request->input('password');
 
         return User::insert([
             'name' => $name,
-            'email' => $email,
             'password' => $password,
         ]);
     }
