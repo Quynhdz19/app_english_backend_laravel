@@ -3,10 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Services\UserService;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
+
+    public $userService;
+
+    public function __construct(UserService $userService) {
+        $this->userService = $userService;
+    }
 
     public function getAllUser()
     {
@@ -21,31 +28,26 @@ class UserController extends Controller
         $password = $request->input('password');
         $email = $request->input('email');
 
-        return User::insert([
-            'name' => $name,
-            'email' => $email,
-            'password' => $password,
-        ]);
+        $result = $this->userService->register($name, $email, $password);
+
+        if ($result) {
+            return response()->json(['message' => 'User created successfully'], 201);
+        } else {
+            return response()->json(['message' => 'Failed to create user'], 400);
+        }
     }
 
     public function login(Request $request)
     {
         $username = $request->input('username');
         $password = $request->input('password');
-        // select * from users where name = $username
-        $users = User::query()->where('name', $username)->get();
 
-        if ($users->isEmpty()) {
-            return response()->json(['error' => 'User not found'], 404);
+        $result = $this->userService->login($username, $password);
+
+        if ($result) {
+            return response()->json(['message' => 'User logged in successfully'], 200);
+        } else {
+            return response()->json(['message' => 'Login false'], 400);
         }
-        foreach ($users as $user) {
-
-            if ($user->password == $password) {
-                return response()->json(['error' => 'oki'], 200);
-            }
-
-        }
-        return response()->json(['error' => 'error'], 400);
-
     }
 }
