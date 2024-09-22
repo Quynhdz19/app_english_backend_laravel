@@ -18,4 +18,9 @@ class CourseService
         //select * from Course
         return Course::all();
     }
+
+    public function getCourse($id)
+    {
+        return Course::query()->where('id', $id)->get();
+    }
 }
