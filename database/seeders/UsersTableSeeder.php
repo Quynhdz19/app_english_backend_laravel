@@ -14,7 +14,7 @@ class UsersTableSeeder extends Seeder
      */
     public function run(): void
     {
-        for ($i = 1; $i <= 10; $i++) {
+        for ($i = 1; $i <= 30; $i++) {
             User::create([
                 'name' => 'User ' . $i,
                 'email' => 'user' . $i . '@example.com',
