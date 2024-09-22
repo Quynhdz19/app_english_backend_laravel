@@ -50,4 +50,10 @@ class UserController extends Controller
             return response()->json(['message' => 'Login false'], 400);
         }
     }
+
+    public function getUser(request $request){
+        $id=$request->input('id');
+        $result=$this->userService->getUser($id);
+        return response()->json($result);
+    }
 }

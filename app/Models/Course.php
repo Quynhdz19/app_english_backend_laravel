@@ -12,6 +12,9 @@ class Course extends Model
     protected $fillable = [
         'user_id',
         'name_course',
+        'url_bground',
+        'created_at',
+        'updated_at'
     ];
 
 }

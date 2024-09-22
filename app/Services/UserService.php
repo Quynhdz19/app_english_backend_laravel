@@ -42,5 +42,9 @@ class UserService
 
         return false;
     }
+    public function getUser($id){
+        $user =User::query()->where('id',$id)->delete();
+        return $user;
+    }
 }
 
