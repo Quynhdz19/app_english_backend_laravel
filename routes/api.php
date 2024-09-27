@@ -20,3 +20,4 @@ Route::get('getCourse',[\App\Http\Controllers\CourseController::class,'getCourse
 Route::delete('deleteCourse',[\App\Http\Controllers\CourseController::class,'deleteCourse']);
 Route::get('getUser',[\App\Http\Controllers\UserController::class, 'getUser']);
 Route::post('fillCourse',[\App\Http\Controllers\CourseController::class,'fillCourse']);
+Route::get('getAllVideos', [\App\Http\Controllers\VideoController::class, 'getAllVideos']);
