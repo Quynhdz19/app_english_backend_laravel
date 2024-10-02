@@ -14,7 +14,7 @@ class UserService
         //
     }
 
-    public function register($name, $email, $password)
+    public function register($name, $email,$password)
     {
         return User::insert([
             'name' => $name,
@@ -45,6 +45,12 @@ class UserService
     public function getUser($id){
         $user =User::query()->where('id',$id)->delete();
         return $user;
+    }
+
+
+
+    public function getPoint($id){
+        return User::query()->where('id',$id)->value('point');
     }
 }
 

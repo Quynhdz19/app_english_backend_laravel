@@ -56,4 +56,11 @@ class UserController extends Controller
         $result=$this->userService->getUser($id);
         return response()->json($result);
     }
+
+
+    public function getPoint(request $request){
+        $id=$request->input('id');
+        $result=$this->userService->getPoint($id);
+        return response()->json($result);
+    }
 }
