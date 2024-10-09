@@ -21,3 +21,5 @@ Route::delete('deleteCourse',[\App\Http\Controllers\CourseController::class,'del
 Route::get('getUser',[\App\Http\Controllers\UserController::class, 'getUser']);
 Route::post('fillCourse',[\App\Http\Controllers\CourseController::class,'fillCourse']);
 Route::get('getAllVideos', [\App\Http\Controllers\VideoController::class, 'getAllVideos']);
+Route::put('update', [\App\Http\Controllers\UserController::class, 'updateUser']);
+Route::delete('delete', [\App\Http\Controllers\UserController::class, 'deleteUser']);

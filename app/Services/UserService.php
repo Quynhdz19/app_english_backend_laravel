@@ -23,7 +23,6 @@ class UserService
         ]);
 
     }
-
     public function login($username, $password)
     {
         // select * from users where name = $username
@@ -42,9 +41,16 @@ class UserService
 
         return false;
     }
-    public function getUser($id){
-        $user =User::query()->where('id',$id)->delete();
-        return $user;
+
+    public function deleteUser($id)
+    {
+        $user = User::find($id);
+        if($user){
+            $user->delete();
+            return true;
+        }
+        return true;
+
     }
 }
 

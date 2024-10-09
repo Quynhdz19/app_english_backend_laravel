@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\RegisterUserRequest;
 use App\Models\User;
 use App\Services\UserService;
 use Illuminate\Http\Request;
-
 class UserController extends Controller
 {
 
@@ -22,20 +22,29 @@ class UserController extends Controller
 
     }
 
-    public function register(Request $request)
+    public function register(RegisterUserRequest $request)
     {
-        $name = $request->input('name');
-        $password = $request->input('password');
-        $email = $request->input('email');
+        // Validate form ( xác thực yêu cầu đến )
+        $validatedData = $request->validate([
+            'name' => 'required|max:255',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|min:6',
+        ]);
 
-        $result = $this->userService->register($name, $email, $password);
+        // Tạo User mới
+        $user = User::create([
+            'name' => $validatedData['name'],
+            'email' => $validatedData['email'],
+            'password' => bcrypt($validatedData['password']), // Mã hóa mật khẩu
+        ]);
 
-        if ($result) {
-            return response()->json(['message' => 'User created successfully'], 201);
-        } else {
-            return response()->json(['message' => 'Failed to create user'], 400);
-        }
+        // Tùy chọn, bạn có thể trả về người dùng đã tạo với thông báo thành công (có thể bỏ)
+        return response()->json([
+            'message' => 'User registered successfully',
+            'user' => $user,
+        ], 201);
     }
+
 
     public function login(Request $request)
     {
@@ -51,9 +60,50 @@ class UserController extends Controller
         }
     }
 
-    public function getUser(request $request){
+    public function deleteUser(Request $request)
+    {
         $id=$request->input('id');
-        $result=$this->userService->getUser($id);
-        return response()->json($result);
+        $result=$this->userService->deleteUser($id);
+        if($result){
+            response()->json([
+                'message' => 'User deleted successfully',
+            ],200);;
+        }
+        else{
+            response()->json([
+                'message' => 'User not found',
+            ], 404);
+        }
+
     }
+    public function updateUser(UpdateUserRequest $request, $id)
+    {
+        $user = User::find($id);
+
+        if (!$user) {
+            return response()->json([
+                'message' => 'User not found'
+            ], 404);
+        }
+
+        $validatedData = $request->validated();
+        $user->update([
+            'name' => $validatedData['name'] ?? $user->name,
+            'email' => $validatedData['email'] ?? $user->email,
+            'password' => isset($validatedData['password']) ? bcrypt($validatedData['password']) : $user->password,
+        ]);
+        return response()->json([
+            'message' => 'User updated successfully',
+            'user' => $user,
+        ], 200);
+
+
+    }
+
+
+
+
+
+
+
 }
