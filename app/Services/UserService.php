@@ -47,8 +47,6 @@ class UserService
         return $user;
     }
 
-
-
     public function getPoint($id){
         return User::query()->where('id',$id)->value('point');
     }
