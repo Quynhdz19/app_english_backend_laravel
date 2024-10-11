@@ -20,7 +20,7 @@ class RegisterUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255',
+            'name' => 'required|max:255',
             'email' => 'required|email|unique:users,email', // Ensure email is valid and unique
             'password' => 'required|string|min:6', // Set a minimum length for the password
         ];
@@ -36,20 +36,10 @@ class RegisterUserRequest extends FormRequest
             'email' => 'Định dạng email không hợp lệ.',
             'unique' => ':attribute này đã được sử dụng.',
             'max' => ':attribute không được vượt quá :max ký tự.',
-            'min' => ':attribute phải có ít nhất :min ký tự.', // Custom message for minimum length
+            'min' => ':attribute phải có ít nhất :min ký tự.',
             'confirmed' => 'Xác nhận :attribute không khớp.',
         ];
     }
 
-    /**
-     * Tùy chỉnh lại thuộc tính cho các trường.
-     */
-    public function attributes(): array
-    {
-        return [
-            'name' => 'Tên',
-            'email' => 'Email',
-            'password' => 'Mật khẩu',
-        ];
-    }
+
 }

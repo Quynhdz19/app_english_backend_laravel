@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\RegisterUserRequest;
+use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
 use App\Services\UserService;
 use Illuminate\Http\Request;
@@ -22,28 +23,28 @@ class UserController extends Controller
 
     }
 
-    public function register(RegisterUserRequest $request)
-    {
-        // Validate form ( xác thực yêu cầu đến )
-        $validatedData = $request->validate([
-            'name' => 'required|max:255',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|min:6',
-        ]);
-
-        // Tạo User mới
-        $user = User::create([
-            'name' => $validatedData['name'],
-            'email' => $validatedData['email'],
-            'password' => bcrypt($validatedData['password']), // Mã hóa mật khẩu
-        ]);
-
-        // Tùy chọn, bạn có thể trả về người dùng đã tạo với thông báo thành công (có thể bỏ)
-        return response()->json([
-            'message' => 'User registered successfully',
-            'user' => $user,
-        ], 201);
-    }
+//    public function register(RegisterUserRequest $request)
+//    {
+//        // Validate form ( xác thực yêu cầu đến )
+//        $validatedData = $request->validate([
+//            'name' => 'required|max:255',
+//            'email' => 'required|email|unique:users,email',
+//            'password' => 'required|min:6',
+//        ]);
+//
+//        // Tạo User mới
+//        $user = User::create([
+//            'name' => $validatedData['name'],
+//            'email' => $validatedData['email'],
+//            'password' => bcrypt($validatedData['password']), // Mã hóa mật khẩu
+//        ]);
+//
+//        // Tùy chọn, bạn có thể trả về người dùng đã tạo với thông báo thành công (có thể bỏ)
+//        return response()->json([
+//            'message' => 'User registered successfully',
+//            'user' => $user,
+//        ], 201);
+//    }
 
 
     public function login(Request $request)
@@ -78,27 +79,22 @@ class UserController extends Controller
     }
     public function updateUser(UpdateUserRequest $request, $id)
     {
-        $user = User::find($id);
+        $users = $this->userService->updateUser($request, $id);
 
-        if (!$user) {
+        if (!$users) {
             return response()->json([
                 'message' => 'User not found'
             ], 404);
         }
 
-        $validatedData = $request->validated();
-        $user->update([
-            'name' => $validatedData['name'] ?? $user->name,
-            'email' => $validatedData['email'] ?? $user->email,
-            'password' => isset($validatedData['password']) ? bcrypt($validatedData['password']) : $user->password,
-        ]);
         return response()->json([
             'message' => 'User updated successfully',
-            'user' => $user,
+            'user' => $users,
         ], 200);
 
 
     }
+
 
 
 

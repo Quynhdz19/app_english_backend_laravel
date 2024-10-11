@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
 
 class UserService
@@ -23,6 +24,7 @@ class UserService
         ]);
 
     }
+
     public function login($username, $password)
     {
         // select * from users where name = $username
@@ -45,11 +47,33 @@ class UserService
     public function deleteUser($id)
     {
         $user = User::find($id);
-        if($user){
+        if ($user) {
             $user->delete();
             return true;
         }
         return true;
+
+    }
+
+    public function updateUser($request, $id)
+    {
+        $user = User::find($id);
+
+        if (!$user) {
+            return response()->json([
+                'message' => 'User not found'
+            ], 404);
+        }
+
+        $user->update([
+            'name' => $request->only('name'),
+            'email' => $request->only('email'),
+            'password' => $request->only('password'),
+        ]);
+        return response()->json([
+            'message' => 'User updated successfully',
+            'user' => $user,
+        ], 200);
 
     }
 }
