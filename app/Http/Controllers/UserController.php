@@ -79,6 +79,7 @@ class UserController extends Controller
     }
     public function updateUser(UpdateUserRequest $request, $id)
     {
+        $id=$request->input('id');
         $users = $this->userService->updateUser($request, $id);
 
         if (!$users) {
