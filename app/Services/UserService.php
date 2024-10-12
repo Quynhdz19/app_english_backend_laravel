@@ -100,6 +100,14 @@ class UserService
 
     }
 
+    public function ranking()
+    {
+       // $ranking = User::query()->raw("select * from users order by points desc limit 5");
+        $ranking = User::orderBy('point', 'desc')->take(5)->get();
+        return $ranking;
+
+    }
+
 
 }
 

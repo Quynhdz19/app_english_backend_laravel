@@ -26,5 +26,6 @@ Route::middleware('auth:api')->group(function () {
     Route::put('update', [\App\Http\Controllers\UserController::class, 'updateUser']);
     Route::delete('delete', [\App\Http\Controllers\UserController::class, 'deleteUser']);
     Route::put('update', [\App\Http\Controllers\UserController::class, 'updateUser']);
+    Route::get('ranking', [\App\Http\Controllers\UserController::class, 'ranking']);
 
 });

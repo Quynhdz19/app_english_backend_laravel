@@ -87,4 +87,10 @@ class UserController extends Controller
 
     }
 
+    public function ranking()
+    {
+        $ranking = $this->userService->ranking();
+        return response()->json($ranking);
+    }
+
 }
