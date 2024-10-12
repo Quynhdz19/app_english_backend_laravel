@@ -63,23 +63,6 @@ class UserController extends Controller
         return response()->json($result);
     }
 
-    public function deleteUser(Request $request)
-    {
-        $id = $request->input('id');
-        $result = $this->userService->deleteUser($id);
-        if ($result){
-            return response()->json([
-                'message' => 'User deleted successfully',
-            ],200);
-        }
-        else{
-            return response()->json([
-                'message' => 'User not found',
-            ], 404);
-        }
-
-    }
-
     public function getPoint(request $request){
         $id = $request->input('id');
         $result = $this->userService->getPoint($id);
