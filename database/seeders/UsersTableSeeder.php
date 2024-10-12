@@ -19,9 +19,12 @@ class UsersTableSeeder extends Seeder
                 'name' => 'User ' . $i,
                 'email' => 'user' . $i . '@example.com',
                 'password' => Hash::make('password'),
+                'point'=>$i,
                 'email_verified_at' => now(),
                 'remember_token' => Str::random(10),
             ]);
         }
     }
 }
+
+#php artisan db:seed --class=UsersTableSeeder

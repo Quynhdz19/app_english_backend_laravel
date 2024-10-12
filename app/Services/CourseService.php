@@ -14,13 +14,15 @@ class CourseService
         //
     }
 
-    public function getAllCourse() {
+    public function getAllCourse()
+    {
         //select * from Course
         return Course::all();
     }
 
-    public function deleteCourse($id){
-        $course =Course::query()->where('id',$id)->delete();
+    public function deleteCourse($id)
+    {
+        $course = Course::query()->where('id', $id)->delete();
 //        $course=Course::find($id);
 //        if($course){
 //            $course->delete();
@@ -29,14 +31,14 @@ class CourseService
 //        return  false;
     }
 
-    public function fillCourse($user_id,$name_course,$url_background){
+    public function fillCourse($user_id, $name_course, $url_background)
+    {
         return Course::insert([
             'user_id' => $user_id,
-            'name_course'=>$name_course,
-            'url_bground'=>$url_background,
-            'created_at'=>now(),
-            'updated_at'=>now(),
+            'name_course' => $name_course,
+            'url_bground' => $url_background,
+            'created_at' => now(),
+            'updated_at' => now(),
         ]);
     }
-
 }
