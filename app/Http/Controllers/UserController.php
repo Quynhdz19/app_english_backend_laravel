@@ -38,16 +38,11 @@ class UserController extends Controller
 
     public function login(Request $request)
     {
-        $username = $request->input('username');
+        $username = $request->input('email');
         $password = $request->input('password');
 
         $result = $this->userService->login($username, $password);
-
-        if ($result) {
-            return $this->respondWithToken($result);
-        } else {
-            return response()->json(['message' => 'Login false'], 400);
-        }
+        return $result;
     }
 
     public function respondWithToken($token): \Illuminate\Http\JsonResponse

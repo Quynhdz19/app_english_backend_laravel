@@ -37,21 +37,28 @@ class UserService
         $user = User::where('email', $username)->first();
 
         if ($user && Hash::check($password, $user->password)) {
-            // Đăng nhập thành công
+            // Đăng nhập thành công, truyền đối tượng User vào
             return $this->generateToken($user);
         }
-
         return false;
     }
 
     private function generateToken($user)
     {
-        // Logic tạo token JWT
-        return auth()->login($user);
+        //dd(111);
+        // Tạo token JWT cho người dùng
+        $token = JWTAuth::fromUser($user);
+
+        // Trả về token dưới dạng JSON
+        return response()->json([
+            'token' => $token,
+            'token_type' => 'bearer',
+            'expires_in' => auth('api')->factory()->getTTL() * 60
+        ]);
     }
 
     public function getUser($id){
-        $user =User::query()->where('id',$id)->delete();
+        $user = User::query()->where('id',$id)->delete();
         return $user;
     }
 
