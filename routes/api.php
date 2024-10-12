@@ -29,3 +29,4 @@ Route::middleware('auth:api')->group(function () {
     Route::get('ranking', [\App\Http\Controllers\UserController::class, 'ranking']);
 
 });
+
