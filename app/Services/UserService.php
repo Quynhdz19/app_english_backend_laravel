@@ -3,6 +3,9 @@
 namespace App\Services;
 
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
+use Tymon\JWTAuth\Facades\JWTAuth;
+use Tymon\JWTAuth\JWT;
 
 class UserService
 {
@@ -14,34 +17,39 @@ class UserService
         //
     }
 
-    public function register($name, $email,$password)
+    public function register($name, $email, $password)
     {
-        return User::insert([
+        // Mã hóa mật khẩu
+        $hashedPassword = Hash::make($password);
+
+        // Lưu người dùng mới với mật khẩu đã mã hóa
+        $user = User::create([
             'name' => $name,
             'email' => $email,
-            'password' => $password,
+            'password' => $hashedPassword,
         ]);
 
+        return $user ? true : false;
     }
 
     public function login($username, $password)
     {
-        // select * from users where name = $username
-        $users = User::query()->where('name', $username)->get();
+        $user = User::where('email', $username)->first();
 
-        if ($users->isEmpty()) {
-            return false;
-        }
-        foreach ($users as $user) {
-
-            if ($user->password == $password) {
-                return true;
-            }
-
+        if ($user && Hash::check($password, $user->password)) {
+            // Đăng nhập thành công
+            return $this->generateToken($user);
         }
 
         return false;
     }
+
+    private function generateToken($user)
+    {
+        // Logic tạo token JWT
+        return auth()->login($user);
+    }
+
     public function getUser($id){
         $user =User::query()->where('id',$id)->delete();
         return $user;

@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Services\UserService;
 use Illuminate\Http\Request;
-
 class UserController extends Controller
 {
 
@@ -45,15 +44,25 @@ class UserController extends Controller
         $result = $this->userService->login($username, $password);
 
         if ($result) {
-            return response()->json(['message' => 'User logged in successfully'], 200);
+            return $this->respondWithToken($result);
         } else {
             return response()->json(['message' => 'Login false'], 400);
         }
     }
 
-    public function getUser(request $request){
-        $id=$request->input('id');
-        $result=$this->userService->getUser($id);
+    public function respondWithToken($token): \Illuminate\Http\JsonResponse
+    {
+        return response()->json(
+            [
+                'token' => $token
+            ]
+        );
+    }
+
+    public function deleteUser(Request $request)
+    {
+        $id = $request->input('id');
+        $result = $this->userService->getUser($id);
         return response()->json($result);
     }
 
@@ -63,4 +72,5 @@ class UserController extends Controller
         $result = $this->userService->getPoint($id);
         return response()->json($result);
     }
+
 }
