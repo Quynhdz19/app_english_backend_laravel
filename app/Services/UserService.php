@@ -65,5 +65,10 @@ class UserService
     public function getPoint($id){
         return User::query()->where('id',$id)->value('point');
     }
+
+    public function top5Points(){
+
+    }
+
 }
 

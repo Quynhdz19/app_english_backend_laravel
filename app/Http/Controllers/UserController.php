@@ -68,4 +68,10 @@ class UserController extends Controller
         return response()->json($result);
     }
 
+    public function top5Points(){
+        $result = $this->userService->top5Points();
+        return User::orderBy('point', 'desc')->limit(5)->get();
+    }
+
+
 }

@@ -25,4 +25,5 @@ Route::middleware('auth:api')->group(function () {
     Route::get('getAllVideos', [\App\Http\Controllers\VideoController::class, 'getAllVideos']);
     Route::put('update', [\App\Http\Controllers\UserController::class, 'updateUser']);
     Route::delete('delete', [\App\Http\Controllers\UserController::class, 'deleteUser']);
+    Route::get('top5Points',[\App\Http\Controllers\UserController::class,'top5Points']);
 });
