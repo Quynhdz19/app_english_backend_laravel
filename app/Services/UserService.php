@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Tymon\JWTAuth\Facades\JWTAuth;
@@ -65,5 +66,40 @@ class UserService
     public function getPoint($id){
         return User::query()->where('id',$id)->value('point');
     }
+
+    public function deleteUser($id)
+    {
+        $user = User::find($id);
+        if ($user) {
+            $user->delete();
+            return true;
+        }
+        return true;
+
+    }
+
+    public function updateUser($request, $id)
+    {
+        $user = User::find($id);
+
+        if (!$user) {
+            return response()->json([
+                'message' => 'User not found'
+            ], 404);
+        }
+
+        $user->update([
+            'name' => $request->only('name'),
+            'email' => $request->only('email'),
+            'password' => $request->only('password'),
+        ]);
+        return response()->json([
+            'message' => 'User updated successfully',
+            'user' => $user,
+        ], 200);
+
+    }
+
+
 }
 

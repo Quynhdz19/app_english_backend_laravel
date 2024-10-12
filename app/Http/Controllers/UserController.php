@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\RegisterUserRequest;
+use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
 use App\Services\UserService;
 use Illuminate\Http\Request;
@@ -61,11 +63,45 @@ class UserController extends Controller
         return response()->json($result);
     }
 
+    public function deleteUser(Request $request)
+    {
+        $id = $request->input('id');
+        $result = $this->userService->deleteUser($id);
+        if ($result){
+            return response()->json([
+                'message' => 'User deleted successfully',
+            ],200);
+        }
+        else{
+            return response()->json([
+                'message' => 'User not found',
+            ], 404);
+        }
+
+    }
 
     public function getPoint(request $request){
         $id = $request->input('id');
         $result = $this->userService->getPoint($id);
         return response()->json($result);
+    }
+
+    public function updateUser(UpdateUserRequest $request)
+    {
+        $id = $request->input('id');
+        $users = $this->userService->updateUser($request, $id);
+
+        if (!$users) {
+            return response()->json([
+                'message' => 'User not found'
+            ], 404);
+        }
+
+        return response()->json([
+            'message' => 'User updated successfully',
+            'user' => $users,
+        ], 200);
+
     }
 
 }
