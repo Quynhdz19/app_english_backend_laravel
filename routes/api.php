@@ -16,16 +16,18 @@ Route::post('register', [\App\Http\Controllers\UserController::class, 'register'
 
 // phải pass middleware thì mới cho đi vào những api khác
 Route::middleware('auth:api')->group(function () {
+    //get all users
     Route::get('getAllUsers', [\App\Http\Controllers\UserController::class, 'getAllUser']);
     Route::get('getCourses', [\App\Http\Controllers\CourseController::class, 'getAllCourses']);
     Route::get('getCourse',[\App\Http\Controllers\CourseController::class,'getCourseDetail']);
     Route::delete('deleteCourse',[\App\Http\Controllers\CourseController::class,'deleteCourse']);
     Route::get('getUser',[\App\Http\Controllers\UserController::class, 'getUser']);
     Route::post('fillCourse',[\App\Http\Controllers\CourseController::class,'fillCourse']);
+    //Videos
     Route::get('getAllVideos', [\App\Http\Controllers\VideoController::class, 'getAllVideos']);
-    Route::put('update', [\App\Http\Controllers\UserController::class, 'updateUser']);
-    Route::delete('delete', [\App\Http\Controllers\UserController::class, 'deleteUser']);
-    Route::put('update', [\App\Http\Controllers\UserController::class, 'updateUser']);
+    Route::put('updateUser', [\App\Http\Controllers\UserController::class, 'updateUser']);
+    Route::delete('deleteUser', [\App\Http\Controllers\UserController::class, 'deleteUser']);
+    Route::get('getPoint', [\App\Http\Controllers\UserController::class, 'getPoint']);
     Route::get('ranking', [\App\Http\Controllers\UserController::class, 'ranking']);
 
 });

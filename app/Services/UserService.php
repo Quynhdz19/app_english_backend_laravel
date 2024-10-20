@@ -6,7 +6,6 @@ use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Tymon\JWTAuth\Facades\JWTAuth;
-use Tymon\JWTAuth\JWT;
 
 class UserService
 {
@@ -64,7 +63,7 @@ class UserService
     }
 
     public function getPoint($id){
-        return User::query()->where('id',$id)->value('point');
+        return User::query()->where('id', $id)->value('point');
     }
 
     public function deleteUser($id)
@@ -81,7 +80,8 @@ class UserService
     public function updateUser($request, $id)
     {
         $user = User::find($id);
-
+        // Mã hóa mật khẩu
+        $hashedPassword = Hash::make($request->only('password'));
         if (!$user) {
             return response()->json([
                 'message' => 'User not found'
@@ -91,7 +91,7 @@ class UserService
         $user->update([
             'name' => $request->only('name'),
             'email' => $request->only('email'),
-            'password' => $request->only('password'),
+            'password' => $hashedPassword,
         ]);
         return response()->json([
             'message' => 'User updated successfully',

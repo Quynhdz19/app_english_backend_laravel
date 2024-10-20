@@ -22,13 +22,13 @@ class CourseService
 
     public function deleteCourse($id)
     {
-        $course = Course::query()->where('id', $id)->delete();
-//        $course=Course::find($id);
-//        if($course){
-//            $course->delete();
-//            return true;
-//        }
-//        return  false;
+        $course = Course::find($id);
+
+        if ($course){
+            $course->delete();
+            return true;
+        }
+        return  false;
     }
 
     public function fillCourse($user_id, $name_course, $url_background)
